@@ -1,5 +1,8 @@
 #include "timestamp.h"
 
+#include <time.h>
+#include <stdio.h>
+
 #define TIMESTAMP_NANO_BUF_SIZE 32
 static char timestamp_nano_buf[TIMESTAMP_NANO_BUF_SIZE];
 
