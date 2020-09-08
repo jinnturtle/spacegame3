@@ -1,0 +1,13 @@
+# compiled files
+exe
+obj/*
+
+# editor generated files
+\#*#
+*~
+~*
+
+# generated project management files
+GPATH
+GRTAGS
+GTAGS
