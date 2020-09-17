@@ -8,7 +8,7 @@
 
 #include "logs.hpp"
 
-auto check_collision(const Rect* a, const Point2* b) -> bool
+auto check_collision(const Rect* a, const Coord2* b) -> bool
 {
     return !(
         b->x > a->x + a->w

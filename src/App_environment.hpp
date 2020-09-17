@@ -6,9 +6,11 @@
 
 #include "Font_atlas.hpp"
 
+// TODO this texture loading logic is temporary -- rework
 enum default_textures {
-    DEF_TEX_button = 0,
-    DEF_TEX_button_pressed,
+    // DEF_TEX_button = 0,
+    // DEF_TEX_button_pressed,
+    DEF_TEX_ship_icon = 0,
 
     DEF_TEX_array_size
 };

@@ -40,18 +40,19 @@ auto App_environment::load_textures() -> void
         return;
     }
 
-//     std::array<std::string, DEF_TEX_array_size> paths;
+    std::array<std::string, DEF_TEX_array_size> paths;
 //     paths[DEF_TEX_button] = "data/gfx/gui/button.png";
 //     paths[DEF_TEX_button_pressed] = "data/gfx/gui/button_pressed.png";
+    paths[DEF_TEX_ship_icon] = "data/gfx/ship_icon.png";
 
-//     for (size_t i {0}; i < this->texs.size(); ++i) {
-//         this->texs.at(i) = load_texture(paths.at(i), this->ren);
-//         if (this->texs.at(i) == nullptr) {
-//             this->set_err("could not load default texture " + paths[i]);
-//             logs::err(logs::ERR_gen, this->get_err_txt());
-//             return;
-//         }
-//     }
+    for (size_t i {0}; i < this->texs.size(); ++i) {
+        this->texs.at(i) = load_texture(paths.at(i), this->ren);
+        if (this->texs.at(i) == nullptr) {
+            this->set_err("could not load default texture " + paths[i]);
+            logs::err(logs::ERR_gen, this->get_err_txt());
+            return;
+        }
+    }
 }
 
 auto App_environment::load_fonts() -> void

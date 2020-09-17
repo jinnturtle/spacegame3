@@ -9,6 +9,7 @@ CXX_SRC =\
 	Font_atlas.cpp \
 	itoa.cpp \
 	main_window.cpp \
+	Vessel.cpp \
 	logs.cpp
 
 C_SRC =\

@@ -24,9 +24,14 @@ struct Rect {
     int h;
 };
 
-struct Point2 {
+struct Coord2 {
     int x;
     int y;
+};
+
+struct Coord2d {
+    double x;
+    double y;
 };
 
 struct Size2 {
@@ -43,7 +48,7 @@ auto rasterize_txt(
     Txt_raster_type ras_t) -> SDL_Texture*;
 
 // this should go into something like physics.hpp or collisions.hpp etc.
-auto check_collision(const Rect* a, const Point2*  b) -> bool;
+auto check_collision(const Rect* a, const Coord2* b) -> bool;
 
 // this should go into something like physics.hpp or collisions.hpp etc.
 // check for colission between point x/y and a 2d box

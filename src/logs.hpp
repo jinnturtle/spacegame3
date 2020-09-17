@@ -23,7 +23,7 @@ namespace logs {
 
 #ifdef DEBUG
 #define DBG(verbocity, ...) if ((DEBUG) >= (verbocity) || (DEBUG) == -1) {\
-    logs::dbg(verbocity, "[", __FILE__, ":", __LINE__, " (", __func__, ")] ",\
+    logs::dbg(verbocity, "[", __FILE__, ":", __LINE__, " ", __func__, "] ",\
     __VA_ARGS__);\
 }
 

@@ -8,6 +8,7 @@
 #include "logs.hpp"
 #include "helpers.hpp"
 #include "itoa.hpp"
+#include "Vessel.hpp"
 
 auto run_main_window(App_environment* app) -> void
 {
@@ -15,6 +16,10 @@ auto run_main_window(App_environment* app) -> void
 
     FPS_manager fps_man;
 
+    Coord2d ship1_start_pos {.x = 400.0, .y = 300.0};
+    Coord2d ship1_start_v {.x = 0.6, .y = 0.6};
+    Vessel ship1(ship1_start_pos, ship1_start_v);
+    
     // main loop
     bool exit {false};
     bool show_fps {true};
@@ -22,14 +27,16 @@ auto run_main_window(App_environment* app) -> void
     int mouse_x {0};
     int mouse_y {0};
     std::array<char, 8> fps_buf {0};
-    Point2 fps_pos {.x = 0, .y = 0};
+    Coord2 fps_pos {.x = 0, .y = 0};
     while (!exit) {
         // input stage
 
         while (SDL_PollEvent(&event) != 0) {
             if (event.type == SDL_MOUSEBUTTONDOWN) {
+                SDL_GetMouseState(&mouse_x, &mouse_y);
                 DBG(9, "mouse click at ", mouse_x, "x", mouse_y);
             } else if (event.type == SDL_MOUSEBUTTONUP) {
+                SDL_GetMouseState(&mouse_x, &mouse_y);
                 DBG(9, "mouse unclick at ", mouse_x, "x", mouse_y);
             } else if (event.type == SDL_KEYDOWN) {
                 if (event.key.keysym.sym == SDLK_f) {
@@ -51,6 +58,8 @@ auto run_main_window(App_environment* app) -> void
 
         // update stage
 
+        ship1.update();
+
         // render stage
 
         SDL_SetRenderDrawColor(app->ren, 0x00, 0x00, 0x00, 0x00);
@@ -65,6 +74,12 @@ auto run_main_window(App_environment* app) -> void
                 &fps_pos,
                 app->ren);
         }
+
+        SDL_Rect ship1_rect{
+            static_cast<int>(ship1.get_pos().x),
+            static_cast<int>(ship1.get_pos().y),
+            16, 16};
+        SDL_RenderCopy(app->ren,app->texs[DEF_TEX_ship_icon], nullptr, &ship1_rect);
 
         SDL_RenderPresent(app->ren);
 

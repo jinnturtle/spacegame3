@@ -23,13 +23,13 @@ class Font_atlas {
     virtual auto render(
         const char* txt,
         size_t n,
-        Point2* pt,
+        Coord2* pt,
         SDL_Renderer* ren) -> void = 0;
 
     // pass text via null-terminated char string
     virtual auto render(
         const char* txt,
-        Point2* pt,
+        Coord2* pt,
         SDL_Renderer* ren) -> void = 0;
 
     virtual auto make_tex(
@@ -55,12 +55,12 @@ class Font_atlas_mono final : public Font_atlas {
     auto render(
         const char* txt,
         size_t n,
-        Point2* pt,
+        Coord2* pt,
         SDL_Renderer* ren) -> void override;
 
     auto render(
         const char* txt,
-        Point2* pt,
+        Coord2* pt,
         SDL_Renderer* ren) -> void override;
 
     auto make_tex(

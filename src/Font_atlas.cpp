@@ -71,7 +71,7 @@ Font_atlas_mono::Font_atlas_mono(
 auto Font_atlas_mono::render(
     const char* txt,
     size_t n,
-    Point2* pt,
+    Coord2* pt,
     SDL_Renderer* ren) -> void
 {
     SDL_Rect src_rect{this->glyph_rect};
@@ -91,7 +91,7 @@ auto Font_atlas_mono::render(
 
 auto Font_atlas_mono::render(
     const char* txt,
-    Point2* pt,
+    Coord2* pt,
     SDL_Renderer* ren) -> void
 {
     SDL_Rect src_rect{this->glyph_rect};
@@ -127,7 +127,7 @@ auto Font_atlas_mono::make_tex(
 
     SDL_SetTextureBlendMode(tex, SDL_BLENDMODE_BLEND);
     SDL_SetRenderTarget(ren, tex);
-    Point2 ren_pt {.x = 0, .y = 0};
+    Coord2 ren_pt {.x = 0, .y = 0};
     this->render(txt, n, &ren_pt, ren);
     SDL_SetRenderTarget(ren, nullptr);
 
