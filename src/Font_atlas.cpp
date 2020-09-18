@@ -28,7 +28,7 @@ Font_atlas::Font_atlas(SDL_Renderer* ren,
     this->glyphs = rasterize_txt(glyphs_txt, size, fg, bg, fpath, ren, ras_t);
 
     if (this->glyphs == nullptr) {
-        logs::err(logs::ERR_gen, "font atlas - no glyphs texture!");
+        ERRLOG("font atlas - no glyphs texture!");
         return;
     }
 
@@ -36,7 +36,7 @@ Font_atlas::Font_atlas(SDL_Renderer* ren,
     int h{0};
     SDL_QueryTexture(this->glyphs, nullptr, nullptr, &w, &h);
     if (w < 1 || h < 1) {
-        logs::err(logs::ERR_gen, "font atlas - bad glyphs texture!");
+        ERRLOG("font atlas - bad glyphs texture!");
         return;
     }
 }
@@ -122,7 +122,7 @@ auto Font_atlas_mono::make_tex(
         this->glyph_rect.w * n,
         this->glyph_rect.h)};
     if (tex == nullptr) {
-        logs::err(logs::ERR_sdl, "could not create texture for text rendering");
+        logs::errt(logs::ERR_sdl, "could not create texture for text rendering");
     }
 
     SDL_SetTextureBlendMode(tex, SDL_BLENDMODE_BLEND);

@@ -34,7 +34,7 @@ auto load_surface(const std::string& path) -> SDL_Surface*
     if (sfc == nullptr) {
         // TODO - make a variadic logs::err
         // logs::err(cru::logs::ERR_IMG, "could not load surface from ", path);
-        logs::err(logs::ERR_img, "could not load surface from " + path);
+        logs::errt(logs::ERR_img, "could not load surface from " + path);
         return nullptr;
     }
 
@@ -54,7 +54,7 @@ auto load_texture(const std::string& path, SDL_Renderer* ren) -> SDL_Texture*
 
     if (tex == nullptr) {
         // TODO - make and use a variadic logs::err
-        logs::err(logs::ERR_sdl, "could not create texture form surface "+path);
+        logs::errt(logs::ERR_sdl, "could not create texture form surface "+path);
 
         return nullptr;
     }
@@ -72,7 +72,7 @@ auto rasterize_txt(
 
     TTF_Font* font {TTF_OpenFont(fpath.c_str(), size)};
     if (font == nullptr) {
-        logs::err(logs::ERR_ttf, "could not open font " + fpath);
+        logs::errt(logs::ERR_ttf, "could not open font " + fpath);
         return nullptr;
     }
 
@@ -88,14 +88,14 @@ auto rasterize_txt(
             sfc = TTF_RenderText_Blended(font, txt.c_str(), fg);
             break;
         default:
-            logs::err(logs::ERR_gen, "invlid text raster method selected");
+            ERRLOG("invlid text raster method selected");
             return nullptr;
     }
 
     TTF_CloseFont(font);
     font = nullptr;
     if (sfc == nullptr) {
-        logs::err(logs::ERR_ttf, "could not render text onto surface");
+        logs::errt(logs::ERR_ttf, "could not render text onto surface");
 
         return nullptr;
     }
@@ -104,7 +104,7 @@ auto rasterize_txt(
     SDL_FreeSurface(sfc);
     sfc = nullptr;
     if (tex == nullptr) {
-        logs::err(logs::ERR_sdl,
+        logs::errt(logs::ERR_sdl,
                   "(rasterize) could not create texture from surface");
 
         return nullptr;

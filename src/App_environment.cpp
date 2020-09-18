@@ -36,7 +36,7 @@ App_environment::~App_environment()
 auto App_environment::load_textures() -> void
 {
     if (this->ren == nullptr) {
-        logs::err(logs::ERR_gen, "can not load app textures: renderer is nil");
+        ERRLOG( "can not load app textures: renderer is nil");
         return;
     }
 
@@ -49,7 +49,7 @@ auto App_environment::load_textures() -> void
         this->texs.at(i) = load_texture(paths.at(i), this->ren);
         if (this->texs.at(i) == nullptr) {
             this->set_err("could not load default texture " + paths[i]);
-            logs::err(logs::ERR_gen, this->get_err_txt());
+            ERRLOG( this->get_err_txt());
             return;
         }
     }
@@ -58,7 +58,7 @@ auto App_environment::load_textures() -> void
 auto App_environment::load_fonts() -> void
 {
     if (this->ren == nullptr) {
-        logs::err(logs::ERR_gen, "can not load app fonts: renderer is nil");
+        ERRLOG( "can not load app fonts: renderer is nil");
         return;
     }
 

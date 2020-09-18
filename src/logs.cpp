@@ -7,7 +7,7 @@
 #include <array>
 #include <sstream>
 
-void logs::err(Err_type err, const std::string& txt)
+auto logs::errt(Err_type err, const std::string& txt) -> void
 {
     std::stringstream buf;
 
@@ -23,7 +23,8 @@ void logs::err(Err_type err, const std::string& txt)
         case ERR_ttf:
             buf << " SDL_TTF: " << TTF_GetError();
             break;
-        case ERR_gen:
+        default:
+            buf << " (unknow error type): ";
             break;
     }
 

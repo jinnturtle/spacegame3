@@ -17,15 +17,15 @@ auto run_main_window(App_environment* app) -> void
     FPS_manager fps_man;
 
     Coord2d ship1_start_pos {.x = 400.0, .y = 300.0};
-    Coord2d ship1_start_v {.x = 0.6, .y = 0.6};
+    Coord2d ship1_start_v {.x = 0.0, .y = 0.0};
     Vessel ship1(ship1_start_pos, ship1_start_v);
-    
+    Coord2d tgt {.x = 0.0, .y = 0.0};
+
     // main loop
     bool exit {false};
     bool show_fps {true};
     SDL_Event event {0};
-    int mouse_x {0};
-    int mouse_y {0};
+    Coord2 mouse_pos {};
     std::array<char, 8> fps_buf {0};
     Coord2 fps_pos {.x = 0, .y = 0};
     while (!exit) {
@@ -33,11 +33,16 @@ auto run_main_window(App_environment* app) -> void
 
         while (SDL_PollEvent(&event) != 0) {
             if (event.type == SDL_MOUSEBUTTONDOWN) {
-                SDL_GetMouseState(&mouse_x, &mouse_y);
-                DBG(9, "mouse click at ", mouse_x, "x", mouse_y);
+                SDL_GetMouseState(&mouse_pos.x, &mouse_pos.y);
+                DBG(9, "mouse click at ", mouse_pos.x, "x", mouse_pos.y);
+
+                tgt.x = static_cast<double>(mouse_pos.x);
+                tgt.y = static_cast<double>(mouse_pos.y);
+                ship1.set_nav_tgt(&tgt);
+                ship1.set_nav_mode(NAV_approach);
             } else if (event.type == SDL_MOUSEBUTTONUP) {
-                SDL_GetMouseState(&mouse_x, &mouse_y);
-                DBG(9, "mouse unclick at ", mouse_x, "x", mouse_y);
+                SDL_GetMouseState(&mouse_pos.x, &mouse_pos.y);
+                DBG(9, "mouse unclick at ", mouse_pos.x, "x", mouse_pos.y);
             } else if (event.type == SDL_KEYDOWN) {
                 if (event.key.keysym.sym == SDLK_f) {
                     if (event.key.keysym.mod & KMOD_SHIFT) {
@@ -88,4 +93,3 @@ auto run_main_window(App_environment* app) -> void
 
     DBG(3, "end of main window");
 }
-

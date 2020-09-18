@@ -3,8 +3,8 @@
 
 #include "helpers.hpp"
 
-enum nav_state {
-    NAV_none = 0,
+enum Nav_mode {
+    NAV_idle = 0,
     NAV_approach,
     NAV_keep_distance,
     NAV_increase_distance,
@@ -12,6 +12,7 @@ enum nav_state {
 };
 
 struct Navigation_params final {
+    Nav_mode mode;
     double max_acc; // max acceleration in meters per second
     Coord2d* target; // in the future will probably be a pointer to object
 };
@@ -24,9 +25,12 @@ public:
     auto get_pos() -> Coord2d;
 
     auto set_nav_tgt(Coord2d* tgt) -> void;
+    auto set_nav_mode(Nav_mode mode) -> void;
 
     auto navigate() -> void;
+    auto nav_approach() -> void;
     auto update() -> void;
+
 private:
     Coord2d pos;
     Coord2d v;

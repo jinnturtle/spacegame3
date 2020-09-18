@@ -25,7 +25,7 @@ auto main() -> int
     DBG(1, "starting ", app.title, " version ", version_str());
 
     if (init_sdl() != 0) {
-        logs::err(logs::ERR_gen, "fatal, could not initialise SDL");
+        ERRLOG( "fatal, could not initialise SDL");
         exit(-1);
     }
 
@@ -34,20 +34,20 @@ auto main() -> int
     std::cout << app.title << " " << version_str() << std::endl;
 
     if (make_sdl_window(&app) != 0) {
-        logs::err(logs::ERR_gen, "fatal, failed to create main window");
+        ERRLOG( "fatal, failed to create main window");
         deinit_sdl(&app);
         exit(-1);
     }
 
     if (make_sdl_renderer(&app) != 0) {
-        logs::err(logs::ERR_gen, "fatal, failed to create sdl renderer");
+        ERRLOG( "fatal, failed to create sdl renderer");
         deinit_sdl(&app);
         exit(-1);
     }
 
     app.load_default_assets();
     if (app.err()) {
-        logs::err(logs::ERR_gen, "could not initalise application");
+        ERRLOG( "could not initalise application");
     } else {
         run_main_window(&app);
     }
@@ -61,19 +61,19 @@ auto init_sdl() -> int
     DBG(1, "initialising SDL");
 
     if (SDL_Init(SDL_INIT_VIDEO) < 0) {
-        logs::err(logs::ERR_sdl, "FATAL - could not initialise SDL!");
+        logs::errt(logs::ERR_sdl, "FATAL - could not initialise SDL!");
         return -1;
     }
 
     int sdl_image_flags = IMG_INIT_PNG;
     // NOLINTNEXTLINE(hicpp-signed-bitwise)
     if ((IMG_Init(sdl_image_flags) & sdl_image_flags) != sdl_image_flags) {
-        logs::err(logs::ERR_img, "FATAL - could not initialise SDL_image!");
+        logs::errt(logs::ERR_img, "FATAL - could not initialise SDL_image!");
         return -1;
     }
 
     if (TTF_Init() == -1) {
-        logs::err(logs::ERR_ttf, "FATAL - could not initialise SDL_ttf!");
+        logs::errt(logs::ERR_ttf, "FATAL - could not initialise SDL_ttf!");
         return -1;
     }
 
@@ -83,7 +83,7 @@ auto init_sdl() -> int
 auto make_sdl_window(App_environment* app) -> int
 {
     if (app == nullptr) {
-        logs::err(logs::ERR_gen, "could not create window, app = nil");
+        ERRLOG( "could not create window, app = nil");
     }
 
     app->win = SDL_CreateWindow(
@@ -92,7 +92,7 @@ auto make_sdl_window(App_environment* app) -> int
         app->win_w, app->win_h,
         SDL_WINDOW_SHOWN);
     if (app->win == nullptr) {
-        logs::err(logs::ERR_sdl, "FATAL - SDL window could not be created!");
+        logs::errt(logs::ERR_sdl, "FATAL - SDL window could not be created!");
         return -1;
     }
 
@@ -102,13 +102,13 @@ auto make_sdl_window(App_environment* app) -> int
 auto make_sdl_renderer(App_environment* app) -> int
 {
     if (app == nullptr) {
-        logs::err(logs::ERR_gen, "could not create renderer, app = nil");
+        ERRLOG( "could not create renderer, app = nil");
     }
 
     app->ren = SDL_CreateRenderer(app->win, -1, SDL_RENDERER_ACCELERATED);
 
     if (app->ren == nullptr) {
-        logs::err(logs::ERR_sdl, "Could not create renderer!");
+        logs::errt(logs::ERR_sdl, "Could not create renderer!");
         return -1;
     }
 

@@ -11,35 +11,53 @@ extern "C" {
 
 namespace logs {
     enum Err_type {
-        ERR_gen = 0, // general errors
-        ERR_sdl, // SDL errors
+        ERR_sdl = 0, // SDL errors
         ERR_img, // SDL Img errors
         ERR_ttf, // SDL TTF errors
     };
 
-    // print error message
-    void err(Err_type err, const std::string& txt);
-} // namespace logs
+    // print specialised error message
+    auto errt(Err_type err, const std::string& txt) -> void;
 
-#ifdef DEBUG
-#define DBG(verbocity, ...) if ((DEBUG) >= (verbocity) || (DEBUG) == -1) {\
-    logs::dbg(verbocity, "[", __FILE__, ":", __LINE__, " ", __func__, "] ",\
-    __VA_ARGS__);\
-}
-
-namespace logs {
-    // print debug messages up to DEBUG verbocity level
+    // log into standard output (stdout, should be configurable in the future)
     template<typename... Ts>
-    void dbg(int lvl, Ts... args) // NOLINT(misc-unused-parameters)
+    auto std(Ts... args) -> void
     {
-            // buffering message before print in case there are multiple threads
-            std::stringstream buf;
-            buf << timestamp_nano() << " DBG(" << lvl << ")" << " ";
-            (buf << ... << args);
+        std::stringstream buf;
+        buf << timestamp_nano() << " ";
+        (buf << ... << args);
+        std::cout << buf.str() << std::endl;
+    }
 
-            std::cout << buf.str() << std::endl;
+    // log into error output (stderr, should be configurable in the future)
+    template<typename... Ts>
+    auto err(Ts... args) -> void
+    {
+        std::stringstream buf;
+        buf << timestamp_nano() << " ";
+        (buf << ... << args);
+        std::cerr << buf.str() << std::endl;
     }
 } // namespace logs
+
+#ifndef LOGS_SRC_TRACE_STAMP
+    #define LOGS_SRC_TRACE_STAMP __FILE__, ":", __LINE__
+#else
+    #error LOGS_SRC_TRACE_STAMP already defined
+#endif
+
+#ifndef ERRLOG
+    #define ERRLOG(...) logs::err("ERROR [", LOGS_SRC_TRACE_STAMP, "] ",\
+    __VA_ARGS__);
+#else
+    #error ERRLOG already defined
+#endif
+
+#ifdef DEBUG
+    #define DBG(verbocity, ...) if ((DEBUG) >= (verbocity) || (DEBUG) == -1) {\
+    logs::std("DBG(", verbocity, ") [", LOGS_SRC_TRACE_STAMP, "] ",\
+    __VA_ARGS__);\
+}
 
 #else
 #   define DBG(...) // nothing here if not a debug build
