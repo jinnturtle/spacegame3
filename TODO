@@ -1,2 +1,5 @@
-* Add delta-time to movement
-* Implement navigation to target (at mouse-click for now)
+* Implement node-based navigation (begin-time, end-time, acceleration,
+direction, etc.)
+Depends on:
+** internal game time
+** movement and process dependency on delta-time (interal game-time)
